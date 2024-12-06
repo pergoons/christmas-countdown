@@ -1,1 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christmas Countdown</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 28px;
+            color: white;
+            text-align: center;
+            background: url('christmas-image.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .countdown-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body>
+    <div class="countdown-container">
+        <h1>Countdown to Christmas 2024</h1>
+        <p id="countdown"></p>
+    </div>
+
+    <script>
+        function updateCountdown() {
+            const christmas = new Date('December 25, 2024 00:00:00');
+            const now = new Date();
+            const difference = christmas - now;
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown').innerText = 
+                `${days} Days ${hours} Hours ${minutes} Minutes ${seconds} Seconds`;
+
+            if (difference < 0) {
+                document.getElementById('countdown').innerText = "Merry Christmas!";
+            }
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>
 
