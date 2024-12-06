@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Christmas Countdown & Game</title>
+    <title>Christmas Countdown</title>
     <style>
         body {
             margin: 0;
@@ -27,12 +27,6 @@
         }
         .countdown {
             font-size: 28px;
-            margin-bottom: 30px;
-        }
-        canvas {
-            display: block;
-            background: rgba(255, 255, 255, 0.8);
-            border: 2px solid #fff;
         }
     </style>
 </head>
@@ -40,11 +34,9 @@
     <div class="container">
         <div class="title">Christmas Countdown</div>
         <div id="countdown" class="countdown"></div>
-        <canvas id="gameCanvas" width="320" height="480"></canvas>
     </div>
 
     <script>
-        // Countdown Timer Script
         function updateCountdown() {
             const christmasDate = new Date("December 25, 2024 00:00:00").getTime();
             const now = new Date().getTime();
@@ -66,96 +58,6 @@
 
         setInterval(updateCountdown, 1000);
         updateCountdown();
-
-        // Flappy Bird Game Script
-        const canvas = document.getElementById("gameCanvas");
-        const ctx = canvas.getContext("2d");
-
-        // Game Variables
-        const santa = new Image();
-        const bg = new Image();
-        const fg = new Image();
-        const candyCane = new Image();
-
-        santa.src = "https://i.imgur.com/E5WLGQo.png"; // Santa hat image
-        bg.src = "https://i.imgur.com/nQF9Q6m.png"; // Background image
-        fg.src = "https://i.imgur.com/K9BfPdD.png"; // Foreground image
-        candyCane.src = "https://i.imgur.com/oa8FvqR.png"; // Candy cane pipe image
-
-        const gap = 85;
-        const constant = candyCane.height + gap;
-
-        let bX = 10; // Bird position
-        let bY = 150; // Bird position
-
-        const gravity = 1.5;
-        let score = 0;
-
-        // Pipe coordinates
-        const pipe = [];
-
-        pipe[0] = {
-            x: canvas.width,
-            y: 0,
-        };
-
-        // On key down
-        document.addEventListener("keydown", moveUp);
-
-        function moveUp() {
-            bY -= 25;
-        }
-
-        function draw() {
-            ctx.drawImage(bg, 0, 0);
-
-            for (let i = 0; i < pipe.length; i++) {
-                ctx.drawImage(candyCane, pipe[i].x, pipe[i].y);
-                ctx.drawImage(
-                    candyCane,
-                    pipe[i].x,
-                    pipe[i].y + constant,
-                    candyCane.width,
-                    canvas.height - (pipe[i].y + constant)
-                );
-
-                pipe[i].x--;
-
-                if (pipe[i].x == 125) {
-                    pipe.push({
-                        x: canvas.width,
-                        y: Math.floor(Math.random() * candyCane.height) - candyCane.height,
-                    });
-                }
-
-                // Detect collision
-                if (
-                    (bX + santa.width >= pipe[i].x &&
-                        bX <= pipe[i].x + candyCane.width &&
-                        (bY <= pipe[i].y + candyCane.height || bY + santa.height >= pipe[i].y + constant)) ||
-                    bY + santa.height >= canvas.height
-                ) {
-                    location.reload(); // Reload page
-                }
-
-                if (pipe[i].x == 5) {
-                    score++;
-                }
-            }
-
-            ctx.drawImage(fg, 0, canvas.height - fg.height);
-            ctx.drawImage(santa, bX, bY);
-
-            bY += gravity;
-
-            ctx.fillStyle = "#000";
-            ctx.font = "20px Arial";
-            ctx.fillText("Score : " + score, 10, canvas.height - 20);
-
-            requestAnimationFrame(draw);
-        }
-
-        draw();
     </script>
 </body>
 </html>
